@@ -80,14 +80,13 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
 
   addList: function (event) {
     this.toggleAddList(event);
-    console.log(this.$el.find('.list-add input').val())
+
     var newList = new TrelloClone.Models.List({
       board_id: this.model.id,
       title: this.$el.find('.list-add input').val()
     });
+
     this.model.lists().add(newList);
-    newList.save({
-      success: function () {console.log("saved on server")}
-    });
+    newList.save();
   }
 });
