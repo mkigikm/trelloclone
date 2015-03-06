@@ -9,7 +9,9 @@ TrelloClone.Models.Board = Backbone.Model.extend({
   parse: function (payload) {
     if (payload.lists) {
       payload.lists.forEach(function (list) {
-        this.lists().add(new TrelloClone.Models.List(list));
+        if (!this.lists().get(list.id)) {
+          this.lists().add(new TrelloClone.Models.List(list), {merge: true});
+        }
       }, this);
 
       delete payload.lists;
