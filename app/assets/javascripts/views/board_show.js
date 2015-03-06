@@ -6,16 +6,24 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
   },
 
   render: function () {
-    var listView;
+    var listShow;
 
     this.removeLists();
     this.$el.html(this.template({board: this.model}));
 
     this.model.lists().each(function (list) {
-      listShow = new TrelloClone.Views.ListShow({model: list});
+      listShow = new TrelloClone.Views.ListShow({
+        model: list
+      });
+
       this.listShows.push(listShow);
       this.$el.find('.board-lists').append(listShow.render().$el);
     }, this);
+
+    this.$el.find('.board-lists').sortable();
+    $('.list-cards').sortable({
+      connectWith: ".list-cards"
+    }).disableSelection();
 
     return this;
   },

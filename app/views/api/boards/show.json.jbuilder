@@ -5,5 +5,5 @@
 json.extract! @board, :title, :id
 
 json.lists do
-  json.array! @board.lists, :title, :id
+  json.partial! "api/lists/list", collection: @board.lists, as: :list
 end
