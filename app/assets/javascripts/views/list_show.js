@@ -1,6 +1,11 @@
 TrelloClone.Views.ListShow = Backbone.View.extend({
   template: JST['list_show'],
 
+  events: {
+    "click .card-add > a": "toggleAddCard",
+    "click .card-add .cancel": "toggleAddCard",
+  },
+
   tagName: 'li',
 
   render: function () {
@@ -32,5 +37,10 @@ TrelloClone.Views.ListShow = Backbone.View.extend({
   remove: function () {
     this.removeCards();
     this.$el.empty();
+  },
+
+  toggleAddCard: function (event) {
+    event.preventDefault();
+    this.$el.find('.card-add > *').toggleClass("hidden");
   }
 });

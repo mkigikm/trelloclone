@@ -1,4 +1,18 @@
-<%= list.get('title') %>
+<ul>
+  <li>
+    <%= list.get('title') %>
+  </li>
 
-<ul class="list-cards">
+  <li>
+    <ul class="list-cards">
+    </ul>
+  </li>
+
+  <li class="card-add">
+    <a href="#">Add a card...</a>
+    <form class="hidden">
+      <input type="text" name="title">
+      <button class="save">Save</button><button class="cancel">X</button>
+    </form>
+  </li>
 </ul>
