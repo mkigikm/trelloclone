@@ -35,6 +35,10 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
 
     this.$board.prepend(_.pluck(this.listShows, '$el'));
 
+    this.makeListsSortable();
+  },
+
+  makeListsSortable: function () {
     this.$el.find('.board-lists').sortable({
       stop: this.moveList.bind(this)
     });
@@ -87,6 +91,7 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
     });
 
     this.model.lists().add(newList);
+    this.makeListsSortable();
     newList.save();
   }
 });

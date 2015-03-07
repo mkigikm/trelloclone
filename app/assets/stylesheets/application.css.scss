@@ -19,3 +19,31 @@
 .hidden {
   display: none;
 }
+
+ul {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  border: 1px red;
+}
+
+.board-lists > li {
+  display: block;
+  float: left;
+  width: 200px;
+  border: 1px solid blue;
+}
+
+.list-title {
+  font-size: 20px;
+}
+
+.group:after {
+  content: "";
+  clear: both;
+  display: block;
+}
