@@ -7,4 +7,11 @@
   <% card.items().each(function (item) { %>
     <li><%= item.escape('title') %> <input type="checkbox"></li>
   <% }) %>
+  <li class="item-add">
+    <a href="#">Add and item...</a>
+    <div class="hidden">
+      <input type="text" name="title">
+      <button class="save">Save</button><button class="cancel">X</button>
+    </div>
+  </li>
 </ul>
