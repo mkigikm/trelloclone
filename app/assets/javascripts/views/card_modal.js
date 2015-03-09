@@ -12,11 +12,31 @@ TrelloClone.Views.CardModal = Backbone.View.extend({
 
   initialize: function () {
     this.listenTo(this.model.items(), "add", this.render);
+    this.$items = this.$el.find('.items');
   },
 
   render: function () {
+    var itemShow;
+
+    this.removeItems();
     this.$el.html(this.template({card: this.model}));
+
+    this.model.items().each(function (item) {
+      itemShow = new TrelloClone.Views.ItemShow({model: item});
+
+      this.itemShows.push(itemShow.render());
+    }, this);
+    this.$items.prepend(_.pluck(this.itemShows, '$el'));
+
     return this;
+  },
+
+  removeItems: function () {
+    this.itemShows && this.itemShows.forEach(function (itemShow) {
+      itemShow.remove();
+    });
+
+    this.itemShows = [];
   },
 
   removeModal: function (event) {
