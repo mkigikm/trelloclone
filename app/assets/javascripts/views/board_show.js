@@ -81,6 +81,7 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
         oldList   = $(event.target).data('list'),
         movedCard = $(event.originalEvent.target.parentElement).data('card'),
         card;
+        
     movedCard.set({'list_id': newList.id});
     $newList.children().each(function (ord) {
       card = $(this).data('card');
