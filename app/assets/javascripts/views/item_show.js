@@ -13,7 +13,6 @@ TrelloClone.Views.ItemShow = Backbone.View.extend({
   },
 
   checkItem: function (event) {
-    event.preventDefault();
-    debugger
+    this.model.save({done: !this.model.get('done')});
   }
 });

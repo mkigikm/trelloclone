@@ -1,1 +1,2 @@
-<%= item.escape('title') %> <input type="checkbox">
+<%= item.escape('title') %>
+<input type="checkbox" <% if (item.get('done')) { %> checked <% } %>>
