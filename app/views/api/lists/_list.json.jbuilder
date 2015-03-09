@@ -1,5 +1,5 @@
-json.extract! list, :title, :id
+json.extract! list, :title, :id, :ord
 
 json.cards do
-  json.array! list.cards, :title, :id, :list_id
+  json.array! list.cards, :title, :id, :list_id, :ord
 end

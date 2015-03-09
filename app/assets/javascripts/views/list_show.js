@@ -58,7 +58,8 @@ TrelloClone.Views.ListShow = Backbone.View.extend({
 
     var newCard = new TrelloClone.Models.Card({
       list_id: this.model.id,
-      title: this.$el.find('.card-add input').val()
+      title: this.$el.find('.card-add input').val(),
+      ord: _.max(this.model.cards().pluck('ord')) + 1
     });
 
     this.model.cards().add(newCard);

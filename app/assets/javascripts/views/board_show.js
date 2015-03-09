@@ -31,6 +31,7 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
       });
 
       this.listShows.push(listShow.render());
+      this.listenTo(list.cards(), "add", this.makeListsSortable);
     }, this);
 
     this.$board.prepend(_.pluck(this.listShows, '$el'));
@@ -39,6 +40,7 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
   },
 
   makeListsSortable: function () {
+    console.log('making sortable')
     this.$el.find('.board-lists').sortable({
       stop: this.moveList.bind(this)
     });
@@ -73,26 +75,22 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
   },
 
   moveCard: function (event, ui) {
-    console.log('moved a card')
-    console.log(ui.position)
-    var $newList = $(event.originalEvent.target.parentElement),
-        newList  = $newList.data('list'),
-        oldList  = $(event.target).data('list'),
-        card     = $(event.originalEvent.target).data('card');
-        
-    card.set({'list_id': newList.id});
+    var $newList  = $(event.originalEvent.target.parentElement),
+        newList   = $newList.data('list'),
+        oldList   = $(event.target).data('list'),
+        movedCard = $(event.originalEvent.target).data('card'),
+        card;
+
+    movedCard.set({'list_id': newList.id});
     $newList.children().each(function (ord) {
       card = $(this).data('card');
       card.set({ord: ord});
       card.save({});
     });
-    oldList.cards().remove(card);
-    newList.cards().add(card);
-  },
 
-  addListForm: function (event) {
-    event.preventDefault();
-    // this.$el.
+    oldList.cards().remove(movedCard);
+    newList.cards().add(movedCard);
+    this.makeListsSortable();
   },
 
   toggleAddList: function (event) {
@@ -105,7 +103,8 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
 
     var newList = new TrelloClone.Models.List({
       board_id: this.model.id,
-      title: this.$el.find('.list-add input').val()
+      title: this.$el.find('.list-add input').val(),
+      ord: _.max(this.model.lists().pluck('ord')) + 1
     });
 
     this.model.lists().add(newList);
