@@ -13,6 +13,8 @@ TrelloClone.Views.ListShow = Backbone.View.extend({
 
   tagName: 'li',
 
+  className: 'board-list',
+
   render: function () {
     var cardView;
 
@@ -27,6 +29,8 @@ TrelloClone.Views.ListShow = Backbone.View.extend({
       this.cardShows.push(cardShow);
       this.$el.find('.list-cards').append(cardShow.render().$el);
     }, this);
+    this.$el.data('list', this.model);
+    this.$el.find('.list-cards').data('list', this.model);
 
     return this;
   },

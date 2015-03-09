@@ -63,13 +63,31 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
   },
 
   moveList: function (event, ui) {
-    console.log('moved a list')
-    console.log(ui.position)
+    var list, lists = this.model.lists();
+
+    $(event.target).find('.board-list').each(function (ord) {
+      list = $(this).data('list');
+      list.set({ord: ord});
+      list.save({});
+    });
   },
 
   moveCard: function (event, ui) {
     console.log('moved a card')
     console.log(ui.position)
+    var $newList = $(event.originalEvent.target.parentElement),
+        newList  = $newList.data('list'),
+        oldList  = $(event.target).data('list'),
+        card     = $(event.originalEvent.target).data('card');
+        
+    card.set({'list_id': newList.id});
+    $newList.children().each(function (ord) {
+      card = $(this).data('card');
+      card.set({ord: ord});
+      card.save({});
+    });
+    oldList.cards().remove(card);
+    newList.cards().add(card);
   },
 
   addListForm: function (event) {
