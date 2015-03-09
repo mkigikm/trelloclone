@@ -4,11 +4,15 @@ TrelloClone.Views.ListShow = Backbone.View.extend({
   events: {
     "click .card-add > a": "toggleAddCard",
     "click .card-add .cancel": "toggleAddCard",
-    "click .card-add .save": "addCard"
+    "click .card-add .save": "addCard",
+    "click .list-title > a": "toggleListTitleEdit",
+    "click .list-title .cancel": "toggleListTitleEdit",
+    "click .list-title .save": "listTitleSave"
   },
 
   initialize: function () {
     this.listenTo(this.model.cards(), "add", this.render);
+    this.listenTo(this.model, "change:title", this.render);
   },
 
   tagName: 'li',
@@ -61,8 +65,21 @@ TrelloClone.Views.ListShow = Backbone.View.extend({
       title: this.$el.find('.card-add input').val(),
       ord: _.max(this.model.cards().pluck('ord')) + 1
     });
+    newCard.get('ord') === -Infinity && newCard.set({ord: 0});
 
     this.model.cards().add(newCard);
     newCard.save();
+  },
+
+  toggleListTitleEdit: function (event) {
+    event.preventDefault();
+    this.$el.find('.list-title > *').toggleClass("hidden");
+    this.$el.find('.list-title input').val(this.model.escape('title'));
+  },
+
+  listTitleSave: function (event) {
+    event.preventDefault();
+    this.$el.find('.list-title > *').toggleClass("hidden");
+    this.model.save({title: this.$el.find('.list-title input').val()});
   }
 });

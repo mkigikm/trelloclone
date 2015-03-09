@@ -4,7 +4,8 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
   events: {
     "click .list-add > a": "toggleAddList",
     "click .list-add .cancel": "toggleAddList",
-    "click .list-add .save": "addList"
+    "click .list-add .save": "addList",
+    "click .card": "renderModal"
   },
 
   initialize: function () {
@@ -106,9 +107,18 @@ TrelloClone.Views.BoardShow = Backbone.View.extend({
       title: this.$el.find('.list-add input').val(),
       ord: _.max(this.model.lists().pluck('ord')) + 1
     });
+    newList.get('ord') === -Infinity && newList.set({ord: 0});
 
     this.model.lists().add(newList);
     this.makeListsSortable();
     newList.save();
+  },
+
+  renderModal: function (event) {
+    event.preventDefault();
+    var card = $(event.currentTarget.parentElement).data('card'),
+        modal = new TrelloClone.Views.CardModal({model: card});
+    $('body').append(modal.render().$el);
+    $('.overlay').toggleClass('hidden');
   }
 });

@@ -1,6 +1,10 @@
 <ul>
   <li class="list-title">
-    <%= list.get('title') %>
+    <a href="#"><%= list.get('title') %></a>
+    <form class="hidden">
+      <input type="text" name="title" value="<%= list.get('title') %>">
+      <button class="save">Save</button><button class="cancel">X</button>
+    </form>
   </li>
 
   <li>
