@@ -1,1 +1,10 @@
-Hello, modal!<%= card.escape('title') %>
+<h1><%= card.escape('title') %></h1>
+<a href="#" class="card-model-close">X</a>
+<p>
+  <%= card.escape('description') %>
+</p>
+<ul>
+  <% card.items().each(function (item) { %>
+    <li><%= item.escape('title') %> <input type="checkbox"></li>
+  <% }) %>
+</ul>
